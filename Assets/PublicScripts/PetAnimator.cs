@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CustomAnimator : MonoBehaviour
+public class PetAnimator : MonoBehaviour, IHandler
 {
+    public PetHandler petHandler { get; set; }
+
+    [TextArea]
+    public string comment = "더 이상 손 댈 것이 없으므로 닫아두세요.";
     public SpriteRenderer spriteRenderer;
     public int FirstAnimationIndex = 0;
     public string FirstAnimationName = "";

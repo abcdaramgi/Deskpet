@@ -1,25 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterState
+public class PetMovement : MonoBehaviour, IHandler
 {
-    None = -1,
-    Idle = 0,
-    Alert = 1,
-    Prone = 2,
-    Walk = 3,
-    Jump = 4,
-    Create = 5,
-};
-
-
-public class CustomMovement : MonoBehaviour
-{
-    public CustomAnimator customAnimator;
+    public PetHandler petHandler { get; set; }
     public CharacterState currentCharacterState = CharacterState.Idle;
     public CharacterState lastCharacterState = CharacterState.None;
-    public DragAndDrop dragAndDrop;
     public bool changeNextState = false;
     public bool canWalk = true;
     public bool isArrive = false;
@@ -51,13 +36,13 @@ public class CustomMovement : MonoBehaviour
                 arriveTime = 0;
                 waitTime = 1.5f;
 
-                customAnimator.PlayAnimation("Idle");
+                petHandler.petAnimator.PlayAnimation("Idle");
             }
         }
 
-        if(dragAndDrop.isPickUp)
+        if(petHandler.petDragAndDrop.isPickUp)
         {
-            if((int)(dragAndDrop.PickUpTimer * 4) % 2 == 0)
+            if((int)(petHandler.petDragAndDrop.PickUpTimer * 4) % 2 == 0)
             {
                 struggling = true;
             }
@@ -66,12 +51,12 @@ public class CustomMovement : MonoBehaviour
                 struggling = false;
             }
 
-            customAnimator.FlipSprite(struggling);
+            petHandler.petAnimator.FlipSprite(struggling);
 
             if(!isPickUp)
             {
                 isPickUp = true;
-                customAnimator.PlayAnimation("Jump");
+                petHandler.petAnimator.PlayAnimation("Jump");
             }
 
             return;
@@ -85,18 +70,18 @@ public class CustomMovement : MonoBehaviour
             
             waitTime = Random.Range(3f, 5f);
 
-            customAnimator.PlayAnimation("Alert");
+            petHandler.petAnimator.PlayAnimation("Alert");
         }
 
         if(canWalk == true)
         {
             if(targetPosition.x < transform.position.x)
             {
-                customAnimator.FlipSprite(false);
+                petHandler.petAnimator.FlipSprite(false);
             }
             else
             {
-                customAnimator.FlipSprite(true);
+                petHandler.petAnimator.FlipSprite(true);
             }
 
             // 이동할 방향과 거리를 구합니다.
@@ -117,7 +102,7 @@ public class CustomMovement : MonoBehaviour
                 isArrive = true;
 
                 // 대기 애니메이션
-                customAnimator.PlayAnimation("Idle");
+                petHandler.petAnimator.PlayAnimation("Idle");
             }
         }
 
@@ -136,7 +121,7 @@ public class CustomMovement : MonoBehaviour
                 targetPosition = GetRandomPosition();
 
                 // 걷기 애니메이션
-                customAnimator.PlayAnimation("Walk");
+                petHandler.petAnimator.PlayAnimation("Walk");
             }
         }
 
@@ -166,7 +151,7 @@ public class CustomMovement : MonoBehaviour
         currentCharacterState = randomState;
 
         // 현재 상태 인덱스로 애니메이션 플레이
-        customAnimator.PlayAnimation("", (int)currentCharacterState);
+        petHandler.petAnimator.PlayAnimation("", (int)currentCharacterState);
 
         // 상태 변경 금지
         changeNextState = false;
