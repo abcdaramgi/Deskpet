@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.kirurobo.uniwinc": {
+      "version": "https://github.com/kirurobo/UniWindowController.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "75b57c8e20ace458a00a9d7d53f45cd328da9c13"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.4",
       "depth": 1,
