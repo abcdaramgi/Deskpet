@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PetAnimator : MonoBehaviour, IHandler
 {
@@ -9,6 +10,9 @@ public class PetAnimator : MonoBehaviour, IHandler
     [TextArea]
     public string comment = "더 이상 손 댈 것이 없으므로 닫아두세요.";
     public SpriteRenderer spriteRenderer;
+    public Image image;
+    public bool forUIAnimator = false;
+    public bool useBoth = false;
     public int FirstAnimationIndex = 0;
     public string FirstAnimationName = "";
     public int currentAnimationIndex = 0;
@@ -19,9 +23,22 @@ public class PetAnimator : MonoBehaviour, IHandler
 
     void Start()
     {
-        if(spriteRenderer == null)
+        if (spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        if (image == null)
+        {
+            image = GetComponent<Image>();
+        }
+
+        if (spriteRenderer == null && image != null)
+        {
+            forUIAnimator = true;
+        }
+        else if (spriteRenderer != null && image != null)
+        {
+            useBoth = true;
         }
 
         PlayAnimation(FirstAnimationName, FirstAnimationIndex);
@@ -85,7 +102,15 @@ public class PetAnimator : MonoBehaviour, IHandler
 
     void PlayNextFrame()
     {
-        spriteRenderer.sprite = AnimationPack.animations[currentAnimationIndex].sprites[currentSpriteIndex];
+        if (forUIAnimator || useBoth)
+        {
+            image.sprite = AnimationPack.animations[currentAnimationIndex].sprites[currentSpriteIndex];
+        }
+
+        if (!forUIAnimator || useBoth)
+        {
+            spriteRenderer.sprite = AnimationPack.animations[currentAnimationIndex].sprites[currentSpriteIndex];
+        }
 
         currentSpriteIndex += 1;
 

@@ -56,7 +56,7 @@ public class PetMovement : MonoBehaviour, IHandler
             if(!isPickUp)
             {
                 isPickUp = true;
-                petHandler.petAnimator.PlayAnimation("Jump");
+                petHandler.petAnimator.PlayAnimation("PickUp");
             }
 
             return;
@@ -69,8 +69,6 @@ public class PetMovement : MonoBehaviour, IHandler
             arriveTime = 0;
             
             waitTime = Random.Range(3f, 5f);
-
-            petHandler.petAnimator.PlayAnimation("Alert");
         }
 
         if(canWalk == true)
@@ -185,21 +183,4 @@ public class PetMovement : MonoBehaviour, IHandler
 
         return randomWorldPosition;
     }
-    
-
-    public void StartRecover()
-    {
-        isRecover = true;
-        recoverTime = 0f;
-        
-        // AnnoyingEffect.SetActive(true);
-        // isAnnoying = true;
-        // annoyingTime = 0f;
-    }  
-    public void StopRecover()
-    {
-        // AnnoyingEffect.SetActive(false);
-        // isAnnoying = false;
-        // annoyingTime = 0f;
-    }  
 }
